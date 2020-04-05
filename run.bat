@@ -10,7 +10,7 @@ for %%a in (./zips/*.zip) do (
 )
 
 for /d %%i in (.\zipsx\*) do (
-    .\a.exe "%%i"
+    .\reader.exe "%%i"
 )
 
 PAUSE

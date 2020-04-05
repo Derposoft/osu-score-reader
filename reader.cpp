@@ -98,6 +98,19 @@ int main(int argc, char* argv[]) {
         // total score
         int score;
         fread(&score, sizeof(score), 1, fp);
+        // max combo
+        short maxcombo;
+        fread(&maxcombo, sizeof(maxcombo), 1, fp);
+        // fc?
+        char fc;
+        fread(&fc, sizeof(fc), 1, fp);
+        // mods?
+        int mods;
+        fread(&mods, sizeof(mods), 1, fp);
+        if (mods & 536870912 == 0) {
+            printf("%s has not used scorev2 on a map! Scores ignored.\n", playername.c_str());
+            exit(0);
+        }
 
         currscore += score;
         // build score report
@@ -105,6 +118,8 @@ int main(int argc, char* argv[]) {
         reportstring += ": ";
         reportstring += std::to_string(score);
         scores->push_back(reportstring);
+
+
     }
     for (int i = 0; i < scores->size(); i++) {
         printf("%s\n", (*scores)[i].c_str());
