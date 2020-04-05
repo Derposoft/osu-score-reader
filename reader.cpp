@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
         // mods?
         int mods;
         fread(&mods, sizeof(mods), 1, fp);
-        if (mods & 536870912 == 0) {
+        if ((mods & 536870912) == 0) {
             printf("%s has not used scorev2 on a map! Scores ignored.\n", playername.c_str());
             exit(0);
         }
@@ -118,8 +118,6 @@ int main(int argc, char* argv[]) {
         reportstring += ": ";
         reportstring += std::to_string(score);
         scores->push_back(reportstring);
-
-
     }
     for (int i = 0; i < scores->size(); i++) {
         printf("%s\n", (*scores)[i].c_str());
