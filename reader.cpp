@@ -1,16 +1,21 @@
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
+#include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <string>
 #include <vector>
 
+#include <openssl/md5.h>
+// print an error!
 void printerror(std::string file) {
     printf("ERROR PROCESSING: %s\n", file.c_str());
     exit(0);
 }
-
+// reads a string from a file as specified in the ".osr file format" page on osu.ppy.sh
 std::string readstring(FILE* fp) {
     std::string result = "";
     char exists[1];
@@ -35,8 +40,73 @@ std::string readstring(FILE* fp) {
     res[size] = '\0';
     return std::string(res);
 }
+// Get the size of the file by its file descriptor
+unsigned long get_size_by_fd(int fd) {
+    struct stat statbuf;
+    if(fstat(fd, &statbuf) < 0) exit(-1);
+    return statbuf.st_size;
+}
+/* return the md5 hash of a file given the filepath. code from 
+    https://stackoverflow.com/questions/1220046/how-to-get-the-md5-hash-of-a-file-in-c 
+    and adapted for my use.
+*/
+std::string getMD5ofFile(std::string path) {
+    int file_descript;
+    unsigned long file_size;
+    char *file_buffer;
+
+    file_descript = open(path.c_str(), O_RDONLY);
+    if (file_descript < 0)
+        exit(-1);
+
+    file_size = get_size_by_fd(file_descript);
+    printf("file size:\t%lu\n", file_size);
+
+    file_buffer = (char*)mmap(0, file_size, PROT_READ, MAP_SHARED, file_descript, 0);
+    char* md5_out;
+    MD5((unsigned char *)file_buffer, file_size, (unsigned char *)md5_out);
+    munmap(file_buffer, file_size);
+
+    std::string result = "";
+    char resbuf[1];
+    for (int i = 0; i < 16; i++) {
+        sprintf(resbuf, "%x", md5_out[i]);
+        result.append(resbuf);
+    }
+    return result;
+}
 
 int main(int argc, char* argv[]) {
+    // read in all map file names from argv input
+    std::string inputs = "";
+    for (int i = 2; i < argc; i++)
+        inputs.append(argv[i]).append(" ");
+    inputs = inputs.substr(0, inputs.size() - 1); // cut off final space
+    // split input by ':::' (assuming maps don't have this sequence of characters. otherwise we screwed.)
+    std::vector<std::string> map_ins; // order: dt, fm, hd, hr, nm
+    std::string delimiter = ":::";
+    size_t pos = 0;
+    std::string token;
+    while ((pos = inputs.find(delimiter)) != std::string::npos) {
+        token = inputs.substr(0, pos);
+        map_ins.push_back(token);
+        inputs.erase(0, pos + delimiter.length());
+    }
+    // debug print for problems
+    std::string dt_map = map_ins[0];
+    std::string fm_map = map_ins[1];
+    std::string hd_map = map_ins[2];
+    std::string hr_map = map_ins[3];
+    std::string nm_map = map_ins[4];
+    // hash computations of beatmaps
+    std::string dt_hash = getMD5ofFile("./maps/dt/" + dt_map);
+    std::string fm_hash = getMD5ofFile("./maps/freemod/" + fm_map);
+    std::string hd_hash = getMD5ofFile("./maps/hd/" + hd_map);
+    std::string hr_hash = getMD5ofFile("./maps/hr/" + hr_map);
+    std::string nm_hash = getMD5ofFile("./maps/nomod/" + nm_map);
+
+    printf("hash test output: %s\n", dt_hash);
+
     std::string path;
     if (argc != 2)
         exit(0);
