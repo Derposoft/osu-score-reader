@@ -1,6 +1,5 @@
 #include <sys/types.h>
 #include <sys/stat.h>
-//#include <sys/mman.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +7,9 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <sstream>
 
-#include <openssl/md5.h>
+#include <openssl\md5.h>
 // print an error!
 void printerror(std::string file) {
     printf("ERROR PROCESSING: %s\n", file.c_str());
@@ -77,6 +77,12 @@ std::string getMD5ofFile(std::string path) {
     return result;
 }
 
+std::string to_string_patch(int val) {
+    std::stringstream ss;
+    ss << val;
+    return ss.str();
+}
+
 int main(int argc, char* argv[]) {
     // read in all map file names from argv input
     std::string inputs = "";
@@ -106,7 +112,7 @@ int main(int argc, char* argv[]) {
     std::string hr_hash = getMD5ofFile("./maps/hr/" + hr_map);
     std::string nm_hash = getMD5ofFile("./maps/nomod/" + nm_map);
 
-    printf("hash test output: %s\n", dt_hash);
+    printf("hash test output: %s\n", dt_hash.c_str());
 
     std::string path;
     if (argc != 2)
@@ -134,7 +140,7 @@ int main(int argc, char* argv[]) {
         std::string filename(currsong->d_name);
         filename = path + "\\" + filename;
         FILE* fp = fopen(filename.c_str(), "rb");
-        if (fp == nullptr) {
+        if (fp == NULL) {
             printf("ERROR OPENING: %s\n", filename.c_str());
             exit(0);
         }
@@ -187,7 +193,8 @@ int main(int argc, char* argv[]) {
         // build score report
         std::string reportstring(currsong->d_name);
         reportstring += ": ";
-        reportstring += std::to_string(score);
+
+        reportstring += to_string_patch(score);
         scores->push_back(reportstring);
     }
     for (int i = 0; i < scores->size(); i++) {
