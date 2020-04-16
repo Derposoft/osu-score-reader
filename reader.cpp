@@ -1,6 +1,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/mman.h>
+//#include <sys/mman.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,11 +62,12 @@ std::string getMD5ofFile(std::string path) {
     file_size = get_size_by_fd(file_descript);
     printf("file size:\t%lu\n", file_size);
 
-    file_buffer = (char*)mmap(0, file_size, PROT_READ, MAP_SHARED, file_descript, 0);
+    file_buffer = (char*)malloc(file_size * sizeof(char));//mmap(0, file_size, PROT_READ, MAP_SHARED, file_descript, 0);
+    read(file_descript, file_buffer, file_size);
     char* md5_out;
     MD5((unsigned char *)file_buffer, file_size, (unsigned char *)md5_out);
-    munmap(file_buffer, file_size);
-
+    //munmap(file_buffer, file_size);
+    free(file_buffer);
     std::string result = "";
     char resbuf[1];
     for (int i = 0; i < 16; i++) {
