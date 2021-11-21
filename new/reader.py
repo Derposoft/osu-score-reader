@@ -1,7 +1,8 @@
 import os
 import hashlib
 import pandas as pd
-from osu_map_parser.osu_map_parser.map_parser import MapParser
+#from osu_map_parser.osu_map_parser.map_parser import MapParser
+from lib.map_parser import MapParser
 from osrparse import parse_replay_file, GameMode, Mod
 
 # -2. create player name -> team name
