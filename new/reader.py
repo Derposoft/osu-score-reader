@@ -36,7 +36,10 @@ for m in maps:
 # 1. extract zips
 zips = os.listdir('replays')
 for zip in zips:
-    os.system('7z e "./replays/"' + zip +  ' -o"./replaysx/" -aoa')
+    if zip.endswith('.zip') or zip.endswith('.rar'):
+        os.system('7z e "./replays/"' + zip +  ' -o"./replaysx/" -aoa')
+    else:
+        os.rename('./replays/' + zip, './replaysx/' + zip)
 
 # 2. parse each replay and add score to results if valid replay
 replays = os.listdir('replaysx')
