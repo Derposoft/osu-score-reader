@@ -2,7 +2,24 @@
 
 This is a score reader/parser for [Duhop](https://osu.ppy.sh/users/Duhop)'s "Retry Paradise 2" osu tourname [here](https://osu.ppy.sh/community/forums/topics/1461824?n=1)! The instructions to use this are simple:
 
-1. TODO/////
+1. run a recursive-submodule git clone like so:
+git clone --recurse-submodules https://github.com/Derposoft/osu-score-reader.git
+
+2. download relevant dependencies:
+pip install pandas
+pip install osrparse
+
+3. change directory into ./new and run setup.py:
+cd new/
+python3 setup.py
+
+4. fill in teams.csv and mapmods.csv with teams and map mods as outlined in the example lines
+
+5. throw all .osr replays and zip/rar osu! replay files into the replays/ folder (not the replaysx/ folder -- just ignore that one :heh:)
+
+6. run reader.py
+
+7. output.csv file should be outputted in current directory!
 
 
 disclaimers:
