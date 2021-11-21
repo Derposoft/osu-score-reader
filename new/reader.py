@@ -39,7 +39,7 @@ zips = os.listdir('replays')
 for zip in zips:
     if zip.endswith('.zip') or zip.endswith('.rar'):
         if str(os.name) == 'nt':
-            os.system('C:/"Program Files"/7-Zip/7z.exe e ' + './replays/' + zip + ' -o"./replaysx/" -aoa')
+            os.system('C:/"Program Files"/7-Zip/7z.exe e ' + './replays/"' + zip + '" -o"./replaysx/" -aoa')
         else:
             os.system('7z e "./replays/"' + zip +  ' -o"./replaysx/" -aoa')
     else:
