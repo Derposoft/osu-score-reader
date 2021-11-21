@@ -37,7 +37,10 @@ for m in maps:
 zips = os.listdir('replays')
 for zip in zips:
     if zip.endswith('.zip') or zip.endswith('.rar'):
-        os.system('7z e "./replays/"' + zip +  ' -o"./replaysx/" -aoa')
+        if str(os.name) == 'nt':
+            os.system('C:"Program Files"\\7-Zip\\7z.exe e ' + '.\\replays\\' + zip + ' -o ".\\replaysx\\" -aoa')
+        else:
+            os.system('7z e "./replays/"' + zip +  ' -o"./replaysx/" -aoa')
     else:
         os.rename('./replays/' + zip, './replaysx/' + zip)
 
@@ -115,10 +118,6 @@ for map in maps_to_team:
             if maps_to_team[map][team][player] > top_player_score:
                 top_player_score = maps_to_team[map][team][player]
         output = output.append([[map, team, player, top_player_score]])
-output.to_csv('outputs.csv', index=False, header=['map', 'team', 'player', 'score'])
-
-
-
-
-    
-
+# if there are any outputs
+if len(output):
+    output.to_csv('outputs.csv', index=False, header=['map', 'team', 'player', 'score'])

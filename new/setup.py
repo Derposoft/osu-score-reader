@@ -1,6 +1,6 @@
 import os
 
-os.makedirs('map', exist_ok=True)
+os.makedirs('maps', exist_ok=True)
 os.makedirs('replays', exist_ok=True)
 os.makedirs('replaysx', exist_ok=True)
 
