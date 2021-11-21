@@ -1,3 +1,11 @@
+'''
+
+made by: https://github.com/note35/osu_map_parser
+corresponding mit license provided in LICENCE
+
+'''
+
+
 import re
 
 from collections import OrderedDict
