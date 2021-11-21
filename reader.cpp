@@ -9,7 +9,8 @@
 #include <vector>
 #include <sstream>
 
-#include <openssl\md5.h>
+//#include <openssl/md5.h>
+
 // print an error!
 void printerror(std::string file) {
     printf("ERROR PROCESSING: %s\n", file.c_str());
@@ -49,7 +50,7 @@ unsigned long get_size_by_fd(int fd) {
 /* return the md5 hash of a file given the filepath. code from 
     https://stackoverflow.com/questions/1220046/how-to-get-the-md5-hash-of-a-file-in-c 
     and adapted for my use.
-*/
+
 std::string getMD5ofFile(std::string path) {
     int file_descript;
     unsigned long file_size;
@@ -75,7 +76,7 @@ std::string getMD5ofFile(std::string path) {
         result.append(resbuf);
     }
     return result;
-}
+}*/
 
 std::string to_string_patch(int val) {
     std::stringstream ss;
@@ -106,6 +107,7 @@ int main(int argc, char* argv[]) {
     std::string hr_map = map_ins[3];
     std::string nm_map = map_ins[4];
     // hash computations of beatmaps
+    /*
     std::string dt_hash = getMD5ofFile("./maps/dt/" + dt_map);
     std::string fm_hash = getMD5ofFile("./maps/freemod/" + fm_map);
     std::string hd_hash = getMD5ofFile("./maps/hd/" + hd_map);
@@ -113,6 +115,7 @@ int main(int argc, char* argv[]) {
     std::string nm_hash = getMD5ofFile("./maps/nomod/" + nm_map);
 
     printf("hash test output: %s\n", dt_hash.c_str());
+    */
 
     std::string path;
     if (argc != 2)
