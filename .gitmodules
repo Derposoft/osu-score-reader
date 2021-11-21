@@ -1,0 +1,3 @@
+[submodule "new/osu_map_parser"]
+	path = new/osu_map_parser
+	url = https://github.com/note35/osu_map_parser.git
