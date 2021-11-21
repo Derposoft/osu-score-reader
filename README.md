@@ -1,9 +1,16 @@
 # Hello friend!
 
-disclaimers:
-- only works on windows.
-- requires 7zip to be installed into default directory (Program Files)
+This is a score reader/parser for [Duhop](https://osu.ppy.sh/users/Duhop)'s "Retry Paradise 2" osu tourname [here](https://osu.ppy.sh/community/forums/topics/1461824?n=1)! The instructions to use this are simple:
 
+1. TODO/////
+
+
+disclaimers:
+- the old score reader only works on windows, but the new one does not!
+- 7zip must still be installed
+~~- only works on windows.
+- requires 7zip to be installed into default directory (Program Files)
+~~
 The scores of each player for each song are outputted and also totalled after the following steps. This program was created for the sole purpose of simplifying the scoring process for the retry paradise osu! tournament. The input to the program are a set of archives of the replays of a given player; e.g. a  file replays.rar or replays.zip which expands into:
 
 replays.rar -> {
