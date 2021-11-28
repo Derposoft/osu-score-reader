@@ -42,11 +42,11 @@ zips = os.listdir('replays')
 for zip in zips:
     if zip.endswith('.zip') or zip.endswith('.rar'):
         if str(os.name) == 'nt':
-            os.system('C:/"Program Files"/7-Zip/7z.exe e ' + './replays/"' + zip + '" -o"./replaysx/" -aoa')
+            os.system(f'C:/"Program Files"/7-Zip/7z.exe e ./replays/"{zip}" -o"./replaysx/" -aoa')
         else:
-            os.system('7z e "./replays/"' + zip +  ' -o"./replaysx/" -aoa')
+            os.system(f'7z e "./replays/"{zip} -o"./replaysx/" -aoa')
     else:
-        os.rename('./replays/' + zip, './replaysx/' + zip)
+        os.rename(f'./replays/{zip}', f'./replaysx/{zip}')
 
 # 2. parse each replay and add score to results if valid replay
 replays = os.listdir('replaysx')
