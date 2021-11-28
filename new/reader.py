@@ -31,11 +31,10 @@ for m in maps:
     is_old_version = False
     if int(map.version) < 11:
         is_old_version = True
-        continue
     if not is_old_version:
         map_id = map.metadata['BeatmapSetID'] + '#osu/' + map.metadata['BeatmapID']
     else:
-        map_id = input('Please enter the beatmap setID and ID in the following format: [setID#osu/ID] (this can be found in the map URL on osu.ppy.sh...):')
+        map_id = input(f'Please enter the beatmap setID and ID for {m} in the following format: [setID#osu/ID] (this can be found in the map URL on osu.ppy.sh...):')
     mapmd5_to_id[map_md5] = (map_id, map.metadata['Title'])
 
 # 1. extract zips
@@ -58,12 +57,12 @@ for r in replays:
     player = replay.player_name
     # 2.1. check game mode
     if replay.game_mode != GameMode.STD:
-        print(player + '\'s replay isn\t osu!std. SKIPPING...')
+        print(f'{player}\'s replay isn\t osu!std. SKIPPING...')
         continue
     # 2.2. check if replay is for map in pool
     replay_map_hash = replay.beatmap_hash
     if not replay_map_hash in mapmd5_to_id:
-        print(player + ' submitted a map not in the pool!:' + r + 'SKIPPING...')
+        print(f'{player} submitted a map not in the pool! SKIPPING {r}')
         continue
     # 2.3. check for scorev2 (for debug prints)
     replay_map_id = mapmd5_to_id[replay_map_hash][0]
