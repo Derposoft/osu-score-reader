@@ -1,7 +1,6 @@
 import os
 import hashlib
 import pandas as pd
-#from osu_map_parser.osu_map_parser.map_parser import MapParser
 from lib.map_parser import MapParser
 from osrparse import parse_replay_file, GameMode, Mod
 
@@ -29,9 +28,14 @@ mapmd5_to_id = {}
 for m in maps:
     map_md5 = hashlib.md5(open('maps/' + m,'rb').read()).hexdigest()
     map = MapParser('maps/' + m)
-    if int(map.version) < 11: # TODO FIX!! IGNORING ALL OLD OSU MAP FILES!
+    is_old_version = False
+    if int(map.version) < 11:
+        is_old_version = True
         continue
-    map_id = map.metadata['BeatmapSetID'] + '#osu/' + map.metadata['BeatmapID']
+    if not is_old_version:
+        map_id = map.metadata['BeatmapSetID'] + '#osu/' + map.metadata['BeatmapID']
+    else:
+        map_id = input('Please enter the beatmap setID and ID in the following format: [setID#osu/ID] (this can be found in the map URL on osu.ppy.sh...):')
     mapmd5_to_id[map_md5] = (map_id, map.metadata['Title'])
 
 # 1. extract zips
