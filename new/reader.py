@@ -70,10 +70,10 @@ for r in replays:
     allowed_mods = map_to_mods[replay_map_id]
     replay_mods = replay.mod_combination
     if not (replay_mods & Mod.ScoreV2):
-        print('SCOREv2 NOT USED FOR THIS MAP. SKIPPING...')
+        print(f'{player} forgot scorev2 for map {replay_map_name}. SKIPPING...')
         continue
     # 2.4. check the mods of the replay against allowed mods
-    MOD_ERROR_MSG = player + ' submitted ' + replay_map_name + ' with wrong map mods! SKIPPING...'
+    MOD_ERROR_MSG = f'{player} submitted {replay_map_name} with wrong mods! SKIPPING...'
     def mod_check(mods, mod_flag):
         # we allow nf and require scorev2 for ALL mod flags. mod flag = 0 for NM
         if mods != (Mod.ScoreV2 | mod_flag) or mods != (Mod.ScoreV2 | Mod.NoFail | mod_flag):
@@ -100,7 +100,7 @@ for r in replays:
         pass
     # 2.5. collect score and add to result
     if player not in player_to_teamname:
-        print(player + ' isn\'t even a player... why did they submit?? SKIPPING...')
+        print(f'{player} isn\'t even a player... why did they submit?? SKIPPING...')
         continue
     player_name = player
     team_name = player_to_teamname[player]
