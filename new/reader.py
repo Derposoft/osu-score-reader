@@ -63,7 +63,7 @@ for r in replays:
     # 2.2. check if replay is for map in pool
     replay_map_hash = replay.beatmap_hash
     if not replay_map_hash in mapmd5_to_id:
-        print(player + ' submitted a map not in the pool! SKIPPING...')
+        print(player + ' submitted a map not in the pool!:' + r + 'SKIPPING...')
         continue
     # 2.3. check for scorev2 (for debug prints)
     replay_map_id = mapmd5_to_id[replay_map_hash][0]
